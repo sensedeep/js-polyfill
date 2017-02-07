@@ -81,6 +81,10 @@ Array.prototype.append = function(other) {
     return this
 }
 
+Number.prototype.currency = function() {
+    return (Math.round(this * 100) / 100).toFixed(2)
+}
+
 Object.keyFields = function(obj, property) {
     let result = []
     for (let [key,value] of Object.entries(obj)) {
@@ -140,3 +144,4 @@ Object.black = function(obj, mask) {
     }
     return result
 }
+
