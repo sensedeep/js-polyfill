@@ -81,6 +81,14 @@ Array.prototype.append = function(other) {
     return this
 }
 
+Array.prototype.unique = function() {
+    return this.filter((value, index, self) => self.indexOf(value) === index)
+}
+
+Array.prototype.remove = function(set) {
+    return this.filter((value, index, self) => set.indexOf(value) < 0)
+}
+
 Number.prototype.currency = function() {
     return (Math.round(this * 100) / 100).toFixed(2)
 }
