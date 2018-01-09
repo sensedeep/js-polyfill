@@ -56,6 +56,7 @@ String.prototype.portable = function() {
 	return this.toString().replace(/\\/g, '/')
 }
 
+//  MOB - may be better to have indexed == false by default
 Array.prototype.toMap = function (property, indexed = true) {
     let result = {}
     if (property) {
@@ -89,8 +90,24 @@ Array.prototype.remove = function(set) {
     return this.filter((value, index, self) => set.indexOf(value) < 0)
 }
 
-Number.prototype.currency = function() {
-    return (Math.round(this * 100) / 100).toFixed(2)
+//  Returns a number
+Number.prototype.currency = function(places = 2) {
+    return (Math.round(this * 100) / 100).toFixed(places) - 0
+}
+
+//  Returns a string
+Number.prototype.money = function(places = 2) {
+    return (Math.round(this * 100) / 100).toFixed(places)
+}
+
+Array.prototype.rotate = function(n) {
+    this.unshift.apply(this, this.splice(n, this.length))
+    return this
+}
+
+//  MOB - rename. Confusing vs Math.round
+Number.prototype.round = function (places = 12) {
+    return parseFloat(this).toPrecision(places) - 0
 }
 
 Object.keyFields = function(obj, property) {
@@ -152,4 +169,3 @@ Object.black = function(obj, mask) {
     }
     return result
 }
-

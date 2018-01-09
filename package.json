@@ -1,7 +1,7 @@
 {
     "name": "js-polyfill",
     "description": "Useful node polyfills",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "keywords": [
         "node",
         "polyfills"
@@ -20,6 +20,7 @@
     "license": "UNLICENSED",
     "main": "index.js",
     "pak": {
-        "export": "*.js"
+        "export": "*.js",
+        "origin": "sensedeep/js-polyfill"
     }
 }
