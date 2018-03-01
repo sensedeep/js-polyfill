@@ -19,8 +19,6 @@
     },
     "license": "UNLICENSED",
     "main": "index.js",
-    "pak": {
-        "export": "*.js",
-        "origin": "sensedeep/js-polyfill"
-    }
+    "export": "*.js",
+    "origin": "sensedeep/js-polyfill"
 }

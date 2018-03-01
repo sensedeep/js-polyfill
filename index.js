@@ -2,7 +2,18 @@
     js-polyfill.js -- Useful polyfills and globals (dump, loadJson, print, serialize)
  */
 
-try { window.global = window } catch (e) {}
+try {
+    if (typeof global !== 'undefined') {
+        ;
+    } else if (typeof self !== 'undefined') {
+        self.global = self
+    } else if (typeof window !== 'undefined') {
+        window.global = window
+    } else {
+        let self = Function('return this')()
+        self.global = self
+    }
+} catch (e) {}
 
 RegExp.prototype.toJSON = RegExp.prototype.toString
 global.dump = (...args) => { for (let item of args) print(JSON.stringify(item, null, 4)) }
@@ -14,6 +25,7 @@ global.zpad = (n, size) => {
     while (s.length < size) s = "0" + s
     return s
 }
+global.makeArray = (a) => ((a && !Array.isArray(a)) ? [a] : a)
 
 const reduce = Function.bind.call(Function.call, Array.prototype.reduce)
 const isEnumerable = Function.bind.call(Function.call, Object.prototype.propertyIsEnumerable)
@@ -56,8 +68,10 @@ String.prototype.portable = function() {
 	return this.toString().replace(/\\/g, '/')
 }
 
-//  MOB - may be better to have indexed == false by default
-Array.prototype.toMap = function (property, indexed = true) {
+/*
+    Convert array to an hash map
+ */
+Array.prototype.toMap = function (property, indexed = false) {
     let result = {}
     if (property) {
         for (let i = 0; i < this.length; i++) {
