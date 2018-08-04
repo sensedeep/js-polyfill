@@ -26,7 +26,11 @@ global.zpad = (n, size) => {
     return s
 }
 global.makeArray = (a) => ((a && !Array.isArray(a)) ? [a] : a)
-
+global.assert = (a) => {
+    if (!(a)) {
+        throw new Error(`Assertion failed`, a)
+    }
+}
 const reduce = Function.bind.call(Function.call, Array.prototype.reduce)
 const isEnumerable = Function.bind.call(Function.call, Object.prototype.propertyIsEnumerable)
 const concat = Function.bind.call(Function.call, Array.prototype.concat)
@@ -183,3 +187,13 @@ Object.black = function(obj, mask) {
     }
     return result
 }
+
+/*
+    randomize(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]
+        }
+        return array
+    }
+*/
