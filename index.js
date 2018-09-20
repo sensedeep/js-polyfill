@@ -28,7 +28,8 @@ global.zpad = (n, size) => {
 global.makeArray = (a) => ((a && !Array.isArray(a)) ? [a] : a)
 global.assert = (a) => {
     if (!(a)) {
-        throw new Error(`Assertion failed`, a)
+        log.exception(`Assertion failed`, new Error('Assertion'), {bug: true})
+        // throw new Error(`Assertion failed`, a)
     }
 }
 const reduce = Function.bind.call(Function.call, Array.prototype.reduce)
@@ -66,6 +67,10 @@ String.prototype.template = function(context) {
         return fn(context)
     }
     return text
+}
+
+String.isDefined = function (value) {
+    return !(value == undefined || value === "" || value.length == 0);
 }
 
 String.prototype.portable = function() {
