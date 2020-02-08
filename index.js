@@ -47,8 +47,21 @@ global.makeArray = (a) => {
 }
 global.assert = (a) => {
     if (!(a)) {
-        console.log.exception(`Assertion failed`, new Error('Assertion'), {bug: true})
+        console.log(`Assertion failed`, new Error('Assertion'), {bug: true})
     }
+}
+global.trap = (obj, prop) => {
+    let actual = `_${prop}`
+	obj[actual] = obj[prop]
+    Object.defineProperty(obj, prop, {
+        get: function () {
+            return obj[actual]
+        },
+        set: function (value) {
+            debugger
+            obj[actual] = value;
+        }
+    })
 }
 const reduce = Function.bind.call(Function.call, Array.prototype.reduce)
 const isEnumerable = Function.bind.call(Function.call, Object.prototype.propertyIsEnumerable)
