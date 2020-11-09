@@ -48,6 +48,7 @@ global.makeArray = (a) => {
 global.assert = (a) => {
     if (!(a)) {
         console.log(`Assertion failed`, new Error('Assertion'), {bug: true})
+        debugger;
     }
 }
 global.trap = (obj, prop) => {
@@ -83,6 +84,19 @@ if (!Object.entries) {
     }
 }
 
+try {
+    Object.defineProperty(Date.prototype, 'show', { get: function() {
+        let s = this
+        let hours = s.getHours()
+        let ampm = hours >= 12 ? 'pm' : 'am';
+        if (hours > 12) {
+            hours -= 12
+        }
+        return `${s.getMonth() + 1}/${s.getDate()} ${hours}:${zpad(s.getMinutes(), 2)}:${zpad(s.getSeconds(), 2)} ${ampm}`
+    }})
+} catch(err) {}
+//  MOB - replace this with Billing.vue
+
 String.prototype.template = function(context) {
     /*
         Ensure all ${keywords} are defined. Set to '' if not defined.
@@ -92,7 +106,9 @@ String.prototype.template = function(context) {
     if (matches) {
         for (let name of matches) {
             let word = name.slice(2).slice(0, -1)
-            context[word] = context[word] || ''
+            if (context[word] == null) {
+                context[word] = ''
+            }
         }
         let fn = Function('_context_', 'with (_context_) { return `' + text + '`}')
         return fn(context)
@@ -146,12 +162,14 @@ Array.prototype.remove = function(set) {
 
 //  Returns a number
 Number.prototype.currency = function(places = 2) {
-    return (Math.round(this * 100) / 100).toFixed(places) - 0
+    let factor = Math.pow(10, places)
+    return (Math.round(this * factor) / factor).toFixed(places) - 0
 }
 
 //  Returns a string
 Number.prototype.money = function(places = 2) {
-    return (Math.round(this * 100) / 100).toFixed(places)
+    let factor = Math.pow(10, places)
+    return (Math.round(this * factor) / factor).toFixed(places) - 0
 }
 
 Array.prototype.rotate = function(n) {
@@ -171,6 +189,7 @@ Object.keyFields = function(obj, property) {
     return result
 }
 
+//  MOB - rename allow/deny or accept/reject
 Object.white = function(obj, mask) {
     let result = {}
     if (!obj) {
@@ -194,6 +213,7 @@ Object.white = function(obj, mask) {
     return result
 }
 
+//  MOB - rename allow/deny or accept/reject
 Object.black = function(obj, mask) {
     let result
     if (!obj) {
@@ -225,3 +245,11 @@ Object.black = function(obj, mask) {
 
 Object.blend = blend
 Object.clone = clone
+
+/*
+function clone(obj) {
+    if (!obj || typeof obj != 'object') {
+        return obj
+    }
+    return JSON.parse(JSON.stringify(obj))
+} */
