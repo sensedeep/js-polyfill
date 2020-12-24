@@ -169,7 +169,7 @@ Number.prototype.currency = function(places = 2) {
 //  Returns a string
 Number.prototype.money = function(places = 2) {
     let factor = Math.pow(10, places)
-    return (Math.round(this * factor) / factor).toFixed(places) - 0
+    return (Math.round(this * factor) / factor).toFixed(places)
 }
 
 Array.prototype.rotate = function(n) {
