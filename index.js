@@ -92,15 +92,35 @@ try {
         if (hours > 12) {
             hours -= 12
         }
-        return `${s.getMonth() + 1}/${s.getDate()} ${hours}:${zpad(s.getMinutes(), 2)}:${zpad(s.getSeconds(), 2)} ${ampm}`
+        return `${s.getMonth() + 1}/${s.getDate()} ${hours}:${zpad(s.getMinutes(), 2)}:${zpad(s.getSeconds(), 2)}:${zpad(s.getMilliseconds(), 2)} ${ampm}`
     }})
 } catch(err) {}
-//  MOB - replace this with Billing.vue
 
+function template(s, ...contexts) {
+    for (let context of contexts) {
+        if (s.indexOf('${') < 0) {
+            break
+        }
+        s = s.replace(/\${(.*?)}/g, (a, b) => {
+            if (context[b]) {
+                return context[b]
+            } else {
+                return a
+            }
+        })
+    }
+    return s.replace(/\${(.*?)}/g, '')
+}
+
+String.template = function(s, ...contexts) {
+    return template(s, ...contexts)
+}
+String.prototype.template = function(...contexts) {
+    return template(this, ...contexts)
+}
+
+/*
 String.prototype.template = function(context) {
-    /*
-        Ensure all ${keywords} are defined. Set to '' if not defined.
-     */
     let text = this.toString()
     let matches = text.match(/\$\{[^}]*}/gm)
     if (matches) {
@@ -115,6 +135,7 @@ String.prototype.template = function(context) {
     }
     return text
 }
+*/
 
 String.isDefined = function (value) {
     return !(value == undefined || value === "" || value.length == 0);
