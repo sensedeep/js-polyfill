@@ -2,6 +2,7 @@
     "name": "js-polyfill",
     "description": "Useful node polyfills",
     "version": "1.0.0",
+    "type": "module",
     "keywords": [
         "node",
         "polyfills"

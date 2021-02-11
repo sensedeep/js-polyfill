@@ -119,24 +119,6 @@ String.prototype.template = function(...contexts) {
     return template(this, ...contexts)
 }
 
-/*
-String.prototype.template = function(context) {
-    let text = this.toString()
-    let matches = text.match(/\$\{[^}]*}/gm)
-    if (matches) {
-        for (let name of matches) {
-            let word = name.slice(2).slice(0, -1)
-            if (context[word] == null) {
-                context[word] = ''
-            }
-        }
-        let fn = Function('_context_', 'with (_context_) { return `' + text + '`}')
-        return fn(context)
-    }
-    return text
-}
-*/
-
 String.isDefined = function (value) {
     return !(value == undefined || value === "" || value.length == 0);
 }
@@ -266,11 +248,3 @@ Object.black = function(obj, mask) {
 
 Object.blend = blend
 Object.clone = clone
-
-/*
-function clone(obj) {
-    if (!obj || typeof obj != 'object') {
-        return obj
-    }
-    return JSON.parse(JSON.stringify(obj))
-} */
